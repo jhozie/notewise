@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "226045461060",
+    "project_id": "my-notewise-app",
+    "storage_bucket": "my-notewise-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:226045461060:android:ada7b9b06710c36d41f211",
+        "android_client_info": {
+          "package_name": "com.notr.rightcrowdmedia.notewise"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "226045461060-bv3tn5velgf8e99mbog3vi1bmsg4tus9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCuA6L1zAM76AT36wQdAAKdB8HHAn9VuTk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "226045461060-bv3tn5velgf8e99mbog3vi1bmsg4tus9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

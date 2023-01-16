@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>226045461060-4i8sle8pnn6lo0joobn1o12r1b51dvh3.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.226045461060-4i8sle8pnn6lo0joobn1o12r1b51dvh3</string>
+	<key>API_KEY</key>
+	<string>AIzaSyD-ANHmkMoTdv1uswP7e6dEe3yRZWslj8s</string>
+	<key>GCM_SENDER_ID</key>
+	<string>226045461060</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.notr.rightcrowdmedia.notewise</string>
+	<key>PROJECT_ID</key>
+	<string>my-notewise-app</string>
+	<key>STORAGE_BUCKET</key>
+	<string>my-notewise-app.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:226045461060:ios:2609b66ac8649f7941f211</string>
+</dict>
+</plist>

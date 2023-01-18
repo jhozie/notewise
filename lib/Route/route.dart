@@ -1,6 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:notewise/main.dart';
+import 'package:notewise/screens/emailverify.dart';
 import 'package:notewise/screens/login.dart';
 import 'package:notewise/screens/onboarding.dart';
 import 'package:notewise/screens/register.dart';
@@ -10,6 +10,7 @@ class RouteManager {
   static const String register = '/register';
   static const String login = '/login';
   static const String onBoarding = '/onboarding';
+  static const String emailVerify = 'email-verify';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -21,6 +22,9 @@ class RouteManager {
         return MaterialPageRoute(builder: ((context) => const Onboarding()));
       case homepage:
         return MaterialPageRoute(builder: ((context) => MyHomePage()));
+      // case emailVerify:
+      //   return MaterialPageRoute(builder: ((context) => EmailVerify()));
+
       default:
         throw Exception('Route not found');
     }

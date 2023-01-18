@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:notewise/Route/route.dart';
 import 'package:notewise/firebase_options.dart';
 
@@ -41,9 +43,11 @@ class _LoginState extends State<Login> {
           switch (snapshot.connectionState) {
             case ConnectionState.done:
               return Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
                 color: Colors.white,
                 child: Padding(
-                  padding: const EdgeInsets.all(30.0),
+                  padding: const EdgeInsets.only(left: 20, right: 20),
                   child: SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,15 +61,14 @@ class _LoginState extends State<Login> {
                                 child: Icon(Icons.arrow_back_ios_new)),
                           ],
                         ),
-                        const Text(
+                        Text(
                           'Welcome',
-                          style: TextStyle(
-                              fontFamily: 'nunito',
-                              fontWeight: FontWeight.w600,
+                          style: GoogleFonts.nunito(
+                              fontWeight: FontWeight.bold,
                               fontSize: 30,
                               color: Color.fromARGB(255, 88, 88, 88)),
                         ),
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 10),
                         const MyText(
                           text: 'Please sign in to continue',
                           fontsize: 20,
@@ -98,13 +101,15 @@ class _LoginState extends State<Login> {
                           onPressed: (() async {
                             final email = _email.text;
                             final password = _password.text;
+                            final user = FirebaseAuth.instance.currentUser;
+
+                            await user?.sendEmailVerification();
                             try {
                               final userCredential = await FirebaseAuth.instance
                                   .signInWithEmailAndPassword(
                                 email: email,
                                 password: password,
                               );
-                              print(userCredential);
                             } on FirebaseAuthException catch (e) {
                               if (e.code == 'user-not-found') {
                                 print('user not found');
@@ -114,6 +119,9 @@ class _LoginState extends State<Login> {
                                 print(e.code);
                               }
                             }
+
+                            Navigator.of(context)
+                                .popAndPushNamed(RouteManager.homepage);
                           }),
                           style: ElevatedButton.styleFrom(
                               minimumSize: const Size(400, 60),
@@ -125,12 +133,62 @@ class _LoginState extends State<Login> {
                                 TextStyle(fontSize: 20, fontFamily: 'nunito'),
                           ),
                         ),
-                        TextButton(
-                            onPressed: (() {
-                              Navigator.of(context)
-                                  .popAndPushNamed(RouteManager.homepage);
-                            }),
-                            child: Text('Email Verify'))
+                        SizedBox(height: 40),
+                        Center(
+                          child: Text(
+                            'Or Sign in with:',
+                            style: GoogleFonts.nunito(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 17,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        Center(
+                          child: InkWell(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Color.fromARGB(255, 4, 94, 211)
+                                        .withOpacity(0.6),
+                                  ),
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(69)),
+                              height: 50,
+                              child: Image.asset(
+                                'images/googleee.png',
+                                width: 50,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Don\'t have an account yet?',
+                              style: GoogleFonts.nunito(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 17,
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: (() {
+                                Navigator.of(context)
+                                    .pushNamed(RouteManager.register);
+                              }),
+                              child: Text(
+                                'Sign up',
+                                style: GoogleFonts.nunito(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 17,
+                                ),
+                              ),
+                            )
+                          ],
+                        )
                       ],
                     ),
                   ),

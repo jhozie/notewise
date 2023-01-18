@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:notewise/Route/route.dart';
 import 'package:notewise/firebase_options.dart';
-import 'package:notewise/screens/confirm_password.dart';
+import 'package:notewise/screens/email_verify.dart';
+import 'package:notewise/screens/login.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           elevatedButtonTheme: ElevatedButtonThemeData(
               style: ElevatedButton.styleFrom(
-                  backgroundColor: Color.fromARGB(255, 37, 105, 207)))),
+                  backgroundColor: const Color.fromARGB(255, 37, 105, 207)))),
       debugShowCheckedModeBanner: false,
       initialRoute: RouteManager.login,
       onGenerateRoute: RouteManager.generateRoute,
@@ -33,24 +34,27 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: FutureBuilder(
-          future: Firebase.initializeApp(
-              options: DefaultFirebaseOptions.currentPlatform),
-          builder: ((context, snapshot) {
-            switch (snapshot.connectionState) {
-              case ConnectionState.done:
-                final user = FirebaseAuth.instance.currentUser;
-                if (user?.emailVerified ?? false) {
-                  print('Email Verified ');
-                } else {
-                  print('Email Not Verified Yet');
-                }
-                return Center(child: Text('Done'));
-              default:
-                return Center(child: Text('Loading...'));
+    return FutureBuilder(
+      future: Firebase.initializeApp(
+          options: DefaultFirebaseOptions.currentPlatform),
+      builder: ((context, snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.done:
+            final user = FirebaseAuth.instance.currentUser;
+            if (user != null) {
+              if (user.emailVerified) {
+              } else {
+                return const EmailVerify();
+              }
+            } else {
+              return const Login();
             }
-          })),
+
+            return const Center(child: Text('done'));
+          default:
+            return const Center(child: CircularProgressIndicator());
+        }
+      }),
     );
   }
 }
@@ -104,9 +108,10 @@ class MyTextField extends StatelessWidget {
               BorderSide(color: Color.fromARGB(255, 4, 94, 211), width: 2),
           borderRadius: BorderRadius.all(Radius.circular(10)),
         ),
-        enabledBorder: const OutlineInputBorder(
-          borderSide:
-              BorderSide(color: Color.fromARGB(255, 4, 94, 211), width: 2),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+              color: Color.fromARGB(255, 4, 94, 211).withOpacity(0.2),
+              width: 2),
           borderRadius: BorderRadius.all(Radius.circular(10)),
         ),
       ),

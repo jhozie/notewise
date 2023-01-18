@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:notewise/Route/route.dart';
 
 import '../main.dart';
 import 'package:notewise/firebase_options.dart';
@@ -45,9 +47,11 @@ class _RegisterState extends State<Register> {
           switch (snapshot.connectionState) {
             case ConnectionState.done:
               return Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
                 color: Colors.white,
                 child: Padding(
-                  padding: const EdgeInsets.all(30),
+                  padding: const EdgeInsets.only(left: 20, right: 20),
                   child: SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -73,12 +77,6 @@ class _RegisterState extends State<Register> {
                           text: 'Please sign in to continue',
                           fontsize: 20,
                         ),
-                        // const SizedBox(height: 20),
-                        // MyTextField(
-                        //   label: 'Ful Name',
-                        //   hint: 'Joe Doe',
-                        //   controller: _fullName,
-                        // ),
                         const SizedBox(height: 20),
                         MyTextField(
                           controller: _email,
@@ -86,26 +84,10 @@ class _RegisterState extends State<Register> {
                           hint: 'johndoe@gmail.com',
                         ),
                         const SizedBox(height: 20),
-                        // TextField(
-                        //   controller: _email,
-                        // ),
-                        // TextField(
-                        //   controller: _password,
-                        // ),
                         MyTextField(
                           controller: _password,
                           label: 'Password',
                           hint: 'Your Password',
-                        ),
-                        const SizedBox(height: 20),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: const [
-                            MyText(
-                              text: 'Forgot Password',
-                              fontsize: 17,
-                            )
-                          ],
                         ),
                         const SizedBox(height: 20),
                         ElevatedButton(
@@ -120,6 +102,9 @@ class _RegisterState extends State<Register> {
                                   email: email,
                                   password: password,
                                 );
+                                final user = FirebaseAuth.instance.currentUser;
+
+                                await user?.sendEmailVerification();
                               } on FirebaseAuthException catch (e) {
                                 if (e.code == 'invalid-email') {
                                   print('Invalid Email');
@@ -129,6 +114,8 @@ class _RegisterState extends State<Register> {
                                   print('Email already in use');
                                 }
                               }
+                              Navigator.of(context)
+                                  .pushNamed(RouteManager.homepage);
                             }),
                             style: ElevatedButton.styleFrom(
                                 minimumSize: const Size(400, 60),
@@ -139,8 +126,34 @@ class _RegisterState extends State<Register> {
                               style: GoogleFonts.nunito(
                                   fontSize: 20, fontWeight: FontWeight.bold),
                             )),
-                        const SizedBox(
-                          height: 60,
+                        SizedBox(height: 70),
+                        Center(
+                          child: Text(
+                            'Or Sign in with:',
+                            style: GoogleFonts.nunito(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 17,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        Center(
+                          child: InkWell(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Color.fromARGB(255, 4, 94, 211)
+                                        .withOpacity(0.6),
+                                  ),
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(69)),
+                              height: 50,
+                              child: Image.asset(
+                                'images/googleee.png',
+                                width: 50,
+                              ),
+                            ),
+                          ),
                         )
                       ],
                     ),
@@ -148,7 +161,7 @@ class _RegisterState extends State<Register> {
                 ),
               );
             default:
-              return const Text('loading');
+              return const CircularProgressIndicator();
           }
         }),
       ),

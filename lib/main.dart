@@ -6,6 +6,7 @@ import 'package:notewise/Route/route.dart';
 import 'package:notewise/firebase_options.dart';
 import 'package:notewise/screens/email_verify.dart';
 import 'package:notewise/screens/login.dart';
+import 'package:notewise/screens/note.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                   backgroundColor: const Color.fromARGB(255, 37, 105, 207)))),
       debugShowCheckedModeBanner: false,
-      initialRoute: RouteManager.login,
+      initialRoute: RouteManager.note,
       onGenerateRoute: RouteManager.generateRoute,
     );
   }
@@ -50,7 +51,7 @@ class MyHomePage extends StatelessWidget {
               return const Login();
             }
 
-            return const Center(child: Text('done'));
+            return const NoteScreen();
           default:
             return const Center(child: CircularProgressIndicator());
         }

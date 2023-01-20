@@ -101,9 +101,7 @@ class _LoginState extends State<Login> {
                           onPressed: (() async {
                             final email = _email.text;
                             final password = _password.text;
-                            final user = FirebaseAuth.instance.currentUser;
 
-                            await user?.sendEmailVerification();
                             try {
                               final userCredential = await FirebaseAuth.instance
                                   .signInWithEmailAndPassword(
@@ -119,7 +117,6 @@ class _LoginState extends State<Login> {
                                 print(e.code);
                               }
                             }
-
                             Navigator.of(context)
                                 .popAndPushNamed(RouteManager.homepage);
                           }),
@@ -195,7 +192,7 @@ class _LoginState extends State<Login> {
                 ),
               );
             default:
-              return const Text('loading...');
+              return const CircularProgressIndicator();
           }
         },
       ),

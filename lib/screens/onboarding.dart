@@ -111,7 +111,7 @@ class _OnboardingState extends State<Onboarding> {
                   child: TextButton(
                       onPressed: (() {
                         Navigator.of(context)
-                            .popAndPushNamed(RouteManager.register);
+                            .popAndPushNamed(RouteManager.login);
                       }),
                       child: Text(
                         'Skip Tour',

@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                   backgroundColor: const Color.fromARGB(255, 37, 105, 207)))),
       debugShowCheckedModeBanner: false,
-      initialRoute: RouteManager.note,
+      initialRoute: RouteManager.login,
       onGenerateRoute: RouteManager.generateRoute,
     );
   }

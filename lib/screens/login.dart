@@ -1,10 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:notewise/Route/route.dart';
 import 'package:notewise/firebase_options.dart';
+import 'package:notewise/screens/utilities/showdialog.dart';
+import 'dart:developer' as devtool show log;
 
 import '../main.dart';
 
@@ -108,17 +109,30 @@ class _LoginState extends State<Login> {
                                 email: email,
                                 password: password,
                               );
+                              devtool.log(userCredential.toString());
+                              Navigator.of(context)
+                                  .popAndPushNamed(RouteManager.homepage);
                             } on FirebaseAuthException catch (e) {
                               if (e.code == 'user-not-found') {
-                                print('user not found');
+                                await showErrorDialog(context,
+                                    title: 'User Not Found',
+                                    description:
+                                        'this user doesn\'t is not registered. Please check and try again');
                               } else if (e.code == 'wrong-password') {
-                                print('Wrong Password');
+                                await showErrorDialog(context,
+                                    title: 'Incorrect Password',
+                                    description:
+                                        'Your password is incorrect. Please check and try again');
                               } else {
-                                print(e.code);
+                                await showErrorDialog(context,
+                                    title: 'An Error Occured',
+                                    description: 'Error: ${e.code}');
                               }
+                            } catch (e) {
+                              await showErrorDialog(context,
+                                  title: 'An Error Occured',
+                                  description: e.toString());
                             }
-                            Navigator.of(context)
-                                .popAndPushNamed(RouteManager.homepage);
                           }),
                           style: ElevatedButton.styleFrom(
                               minimumSize: const Size(400, 60),
@@ -130,7 +144,7 @@ class _LoginState extends State<Login> {
                                 TextStyle(fontSize: 20, fontFamily: 'nunito'),
                           ),
                         ),
-                        SizedBox(height: 40),
+                        const SizedBox(height: 40),
                         Center(
                           child: Text(
                             'Or Sign in with:',

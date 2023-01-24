@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:notewise/Route/route.dart';
-
 import '../main.dart';
 import 'package:notewise/firebase_options.dart';
+import 'dart:developer' as devtool show log;
+
+import 'utilities/showdialog.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -105,17 +107,35 @@ class _RegisterState extends State<Register> {
                                 final user = FirebaseAuth.instance.currentUser;
 
                                 await user?.sendEmailVerification();
+                                devtool.log(userCredentials.toString());
+                                Navigator.of(context)
+                                    .pushNamed(RouteManager.homepage);
                               } on FirebaseAuthException catch (e) {
                                 if (e.code == 'invalid-email') {
-                                  print('Invalid Email');
+                                  await showErrorDialog(context,
+                                      title: 'Invalid Email',
+                                      description:
+                                          'Email provided is not valid. Please check and try again');
                                 } else if (e.code == 'weak-password') {
-                                  print('Weak Password');
+                                  await showErrorDialog(context,
+                                      title: 'Weak Password',
+                                      description:
+                                          'The password provided is weak. Please check and try again');
                                 } else if (e.code == 'email-already-in-use') {
-                                  print('Email already in use');
+                                  await showErrorDialog(context,
+                                      title: 'Email Already in Use',
+                                      description:
+                                          'The Email provided is already in use. Please check and try again');
+                                } else {
+                                  await showErrorDialog(context,
+                                      title: 'An Error Occured',
+                                      description: 'Error: ${e.code}');
                                 }
+                              } catch (e) {
+                                await showErrorDialog(context,
+                                    title: 'An Error Occured',
+                                    description: e.toString());
                               }
-                              Navigator.of(context)
-                                  .pushNamed(RouteManager.homepage);
                             }),
                             style: ElevatedButton.styleFrom(
                                 minimumSize: const Size(400, 60),
@@ -126,7 +146,7 @@ class _RegisterState extends State<Register> {
                               style: GoogleFonts.nunito(
                                   fontSize: 20, fontWeight: FontWeight.bold),
                             )),
-                        SizedBox(height: 70),
+                        const SizedBox(height: 70),
                         Center(
                           child: Text(
                             'Or Sign in with:',
@@ -136,13 +156,13 @@ class _RegisterState extends State<Register> {
                             ),
                           ),
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         Center(
                           child: InkWell(
                             child: Container(
                               decoration: BoxDecoration(
                                   border: Border.all(
-                                    color: Color.fromARGB(255, 4, 94, 211)
+                                    color: const Color.fromARGB(255, 4, 94, 211)
                                         .withOpacity(0.6),
                                   ),
                                   color: Colors.white,

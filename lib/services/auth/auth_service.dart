@@ -1,6 +1,6 @@
-import 'package:notewise/auth/auth_provider.dart';
-import 'package:notewise/auth/auth_user.dart';
-import 'package:notewise/auth/firebase_auth_provider.dart';
+import 'package:notewise/services/auth/auth_provider.dart';
+import 'package:notewise/services/auth/auth_user.dart';
+import 'package:notewise/services/auth/firebase_auth_provider.dart';
 
 class AuthService implements AuthProvider {
   AuthService(this.provider);

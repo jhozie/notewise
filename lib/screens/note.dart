@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:notewise/firebase_options.dart';
+import 'package:notewise/utilities/showdialog.dart';
 
 class NoteScreen extends StatefulWidget {
   const NoteScreen({super.key});
@@ -62,12 +63,20 @@ class _NoteScreenState extends State<NoteScreen> {
                                         color: const Color.fromARGB(
                                             255, 88, 88, 88)),
                                   ),
-                                  const CircleAvatar(
+                                  CircleAvatar(
                                     radius: 20,
-                                    child: CircleAvatar(
-                                      radius: 17,
-                                      backgroundImage:
-                                          AssetImage('images/avatar-woman.jpg'),
+                                    child: InkWell(
+                                      onTap: (() async {
+                                        await showLogOutDialog(context,
+                                            title: 'Log Out',
+                                            description:
+                                                'Are you sure you want to log out?');
+                                      }),
+                                      child: const CircleAvatar(
+                                        radius: 17,
+                                        backgroundImage: AssetImage(
+                                            'images/avatar-woman.jpg'),
+                                      ),
                                     ),
                                   )
                                 ]),

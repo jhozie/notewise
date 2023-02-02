@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:notewise/Route/route.dart';
-import 'package:notewise/auth/auth_service.dart';
+import 'package:notewise/services/auth/auth_service.dart';
 import 'package:notewise/screens/email_verify.dart';
 import 'package:notewise/screens/login.dart';
 import 'package:notewise/screens/note.dart';

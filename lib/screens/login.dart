@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:notewise/Route/route.dart';
-import 'package:notewise/auth/auth_service.dart';
-import 'package:notewise/screens/utilities/exceptions.dart';
-import 'package:notewise/screens/utilities/showdialog.dart';
+import 'package:notewise/services/auth/auth_service.dart';
+import 'package:notewise/utilities/exceptions.dart';
+import 'package:notewise/utilities/showdialog.dart';
 
 import '../main.dart';
 
@@ -105,9 +105,9 @@ class _LoginState extends State<Login> {
                             'this user doesn\'t is not registered. Please check and try again');
                   } on WrongPasswordException {
                     await showErrorDialog(context,
-                        title: 'Incorrect Password',
+                        title: 'Incorrect Credentials',
                         description:
-                            'Your password is incorrect. Please check and try again');
+                            'Your credentials is incorrect. Please check and try again');
                   } on GenericException {
                     await showErrorDialog(context,
                         title: 'An Error Occured',

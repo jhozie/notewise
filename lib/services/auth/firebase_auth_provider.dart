@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:notewise/auth/auth_provider.dart';
-import 'package:notewise/auth/auth_user.dart';
+import 'package:notewise/services/auth/auth_provider.dart';
+import 'package:notewise/services/auth/auth_user.dart';
 import 'package:notewise/firebase_options.dart';
-import 'package:notewise/screens/utilities/exceptions.dart';
+import 'package:notewise/utilities/exceptions.dart';
 
 class FirebaseAuthProvider implements AuthProvider {
   @override
@@ -59,10 +59,9 @@ class FirebaseAuthProvider implements AuthProvider {
 
   @override
   Future<void> logOut() async {
-    await FirebaseAuth.instance.signOut();
     final user = currentUser;
     if (user != null) {
-      user;
+      await FirebaseAuth.instance.signOut();
     } else {
       throw UserNotLoggedInException();
     }

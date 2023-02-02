@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:notewise/Route/route.dart';
-import 'package:notewise/auth/auth_service.dart';
-import 'package:notewise/screens/utilities/exceptions.dart';
+import 'package:notewise/services/auth/auth_service.dart';
+import 'package:notewise/utilities/exceptions.dart';
 import '../main.dart';
 
-import 'utilities/showdialog.dart';
+import '../utilities/showdialog.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});

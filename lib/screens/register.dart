@@ -64,7 +64,7 @@ class _RegisterState extends State<Register> {
               ),
               const SizedBox(height: 10),
               const MyText(
-                text: 'Please sign in to continue',
+                text: 'Please sign up to continue',
                 fontsize: 20,
               ),
               const SizedBox(height: 20),

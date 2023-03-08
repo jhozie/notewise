@@ -1,7 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 import 'package:google_fonts/google_fonts.dart';
+import 'package:notewise/Route/route.dart';
 import 'package:notewise/firebase_options.dart';
 import 'package:notewise/utilities/showdialog.dart';
 
@@ -34,6 +36,23 @@ class _NoteScreenState extends State<NoteScreen> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
+        floatingActionButton: Container(
+          height: 80,
+          width: 80,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(59),
+            color: Color.fromARGB(255, 4, 94, 211),
+          ),
+          child: IconButton(
+              onPressed: (() {
+                Navigator.of(context).pushNamed(RouteManager.newNote);
+              }),
+              icon: const Icon(
+                Icons.post_add,
+                color: Colors.white,
+                size: 40,
+              )),
+        ),
         body: FutureBuilder(
             future: Firebase.initializeApp(
                 options: DefaultFirebaseOptions.currentPlatform),
@@ -42,7 +61,7 @@ class _NoteScreenState extends State<NoteScreen> {
                 case ConnectionState.done:
                   return SingleChildScrollView(
                     child: Container(
-                      color: const Color.fromARGB(255, 243, 243, 243),
+                      color: Color.fromARGB(255, 250, 250, 250),
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.height,
                       child: Padding(
@@ -51,6 +70,7 @@ class _NoteScreenState extends State<NoteScreen> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             const SizedBox(height: 50),
+                            // Circle Avatar Section
                             Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -107,16 +127,19 @@ class _NoteScreenState extends State<NoteScreen> {
                               ),
                             ),
                             Container(
-                              height: 200,
+                              height: 180,
                               child: ListView.builder(
                                   scrollDirection: Axis.horizontal,
                                   itemCount: _itemList.length,
                                   itemBuilder: ((context, index) {
-                                    return MyNoteContainer(
-                                        title:
-                                            _itemList[index]['title'] as String,
-                                        content: _itemList[index]['content']
-                                            as String);
+                                    return InkWell(
+                                      onTap: (() {}),
+                                      child: MyNoteContainer(
+                                          title: _itemList[index]['title']
+                                              as String,
+                                          content: _itemList[index]['content']
+                                              as String),
+                                    );
                                   })),
                             ),
                             Container(
@@ -139,11 +162,12 @@ class _NoteScreenState extends State<NoteScreen> {
                                   ),
                                   Tab(text: 'Favorite'),
                                 ],
-                                isScrollable: true,
+                                isScrollable: false,
                               ),
                             ),
+                            //Contains the Tabview Content
                             Container(
-                              height: 150,
+                              height: 200,
                               child: TabBarView(
                                 children: [
                                   SingleChildScrollView(
@@ -152,8 +176,8 @@ class _NoteScreenState extends State<NoteScreen> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 20),
+                                          padding:
+                                              const EdgeInsets.only(top: 20),
                                           child: Text(
                                             'Notes',
                                             style: GoogleFonts.nunito(
@@ -163,66 +187,61 @@ class _NoteScreenState extends State<NoteScreen> {
                                                     255, 88, 88, 88)),
                                           ),
                                         ),
-                                        Container(
-                                          margin:
-                                              const EdgeInsets.only(bottom: 5),
-                                          decoration: const BoxDecoration(
-                                            color: Colors.white,
-                                            border: Border(
-                                              left: BorderSide(
-                                                  width: 7, color: Colors.blue),
-                                            ),
-                                          ),
-                                          child: ListTile(
-                                            contentPadding:
-                                                const EdgeInsets.all(15),
-                                            title: const Text('Title'),
-                                            trailing: ElevatedButton(
-                                                onPressed: (() {}),
-                                                style: ElevatedButton.styleFrom(
-                                                    backgroundColor: Colors
-                                                        .amber
-                                                        .withOpacity(0.6)),
-                                                child: const Text('data')),
-                                            shape: const RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.only(
-                                                    topLeft:
-                                                        Radius.circular(10))),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 20),
-                                          child: Text(
-                                            'Notes',
-                                            style: GoogleFonts.nunito(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20,
-                                                color: const Color.fromARGB(
-                                                    255, 88, 88, 88)),
-                                          ),
-                                        ),
-                                        Container(
-                                          decoration: const BoxDecoration(
-                                            color: Colors.white,
-                                            border: Border(
-                                              left: BorderSide(
-                                                  width: 7, color: Colors.blue),
-                                            ),
-                                          ),
-                                          margin:
-                                              const EdgeInsets.only(bottom: 10),
-                                          child: const ListTile(
-                                            tileColor: Colors.white,
-                                            contentPadding: EdgeInsets.all(15),
-                                            title: Text('Title'),
-                                            trailing: Text('data'),
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.only(
-                                                    topLeft:
-                                                        Radius.circular(10))),
-                                          ),
-                                        ),
+                                        ListView.separated(
+                                            shrinkWrap: true,
+                                            physics:
+                                                const NeverScrollableScrollPhysics(),
+                                            itemBuilder: ((context, index) {
+                                              return Container(
+                                                decoration: const BoxDecoration(
+                                                  color: Colors.white,
+                                                ),
+                                                child: Slidable(
+                                                  endActionPane: ActionPane(
+                                                      motion:
+                                                          const BehindMotion(),
+                                                      children: [
+                                                        SlidableAction(
+                                                          onPressed:
+                                                              ((context) {}),
+                                                          icon: Icons.delete,
+                                                          backgroundColor:
+                                                              Colors.red,
+                                                        )
+                                                      ]),
+                                                  child: ListTile(
+                                                    contentPadding:
+                                                        EdgeInsets.all(10),
+                                                    title: Text(
+                                                      'Chat GPT Article',
+                                                      style: GoogleFonts.nunito(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 17),
+                                                    ),
+                                                    isThreeLine: true,
+                                                    subtitle: const Text(
+                                                      'mdm fmd mfdmfmdf  jrrejr jj trejre To update to the latest version, run "flutter upgrade". ',
+                                                    ),
+                                                    trailing: TextButton(
+                                                      onPressed: (() {}),
+                                                      child: Text('Work'),
+                                                      style: ButtonStyle(
+                                                          backgroundColor:
+                                                              MaterialStatePropertyAll(
+                                                                  Colors.red
+                                                                      .withOpacity(
+                                                                          0.1))),
+                                                    ),
+                                                  ),
+                                                ),
+                                              );
+                                            }),
+                                            separatorBuilder:
+                                                ((context, index) {
+                                              return const SizedBox(height: 10);
+                                            }),
+                                            itemCount: 5),
                                       ],
                                     ),
                                   ),
@@ -240,12 +259,14 @@ class _NoteScreenState extends State<NoteScreen> {
               }
             })),
         bottomNavigationBar: BottomNavigationBar(
+          iconSize: 30,
           items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'One'),
             BottomNavigationBarItem(
-                icon: Icon(Icons.category_outlined), label: 'Two'),
+                icon: Icon(Icons.home_outlined), label: 'Home'),
             BottomNavigationBarItem(
-                icon: Icon(Icons.category_outlined), label: 'three'),
+                icon: Icon(Icons.notes_outlined), label: 'Categories'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.settings_outlined), label: 'Settings'),
           ],
           currentIndex: _selectedIndex,
         ),
@@ -270,7 +291,7 @@ class MyNoteContainer extends StatelessWidget {
       padding: const EdgeInsets.only(right: 20, top: 20),
       child: Container(
         width: 200,
-        height: 200,
+        height: 100,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: const Color.fromARGB(255, 4, 94, 211).withOpacity(0.2)),

@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                   backgroundColor: const Color.fromARGB(255, 37, 105, 207)))),
       debugShowCheckedModeBanner: false,
-      initialRoute: RouteManager.login,
+      initialRoute: RouteManager.note,
       onGenerateRoute: RouteManager.generateRoute,
     );
   }
@@ -110,7 +110,7 @@ class MyTextField extends StatelessWidget {
           borderSide: BorderSide(
               color: Color.fromARGB(255, 4, 94, 211).withOpacity(0.2),
               width: 2),
-          borderRadius: BorderRadius.all(Radius.circular(10)),
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
         ),
       ),
     );

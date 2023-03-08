@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:notewise/main.dart';
+import 'package:notewise/screens/categories.dart';
 import 'package:notewise/screens/email_verify.dart';
 import 'package:notewise/screens/login.dart';
+import 'package:notewise/screens/new_note.dart';
 import 'package:notewise/screens/note.dart';
 import 'package:notewise/screens/onboarding.dart';
 import 'package:notewise/screens/register.dart';
@@ -11,8 +13,10 @@ class RouteManager {
   static const String register = '/register';
   static const String login = '/login';
   static const String onBoarding = '/onboarding';
-  static const String emailVerify = 'email-verify';
+  static const String emailVerify = '/email-verify';
   static const String note = '/note';
+  static const String newNote = '/new-note';
+  static const String categories = '/categories';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -28,6 +32,11 @@ class RouteManager {
         return MaterialPageRoute(builder: ((context) => const EmailVerify()));
       case note:
         return MaterialPageRoute(builder: ((context) => const NoteScreen()));
+      case newNote:
+        return MaterialPageRoute(
+            builder: ((context) => const CreateUpdateNote()));
+      case categories:
+        return MaterialPageRoute(builder: ((context) => const Categories()));
       default:
         throw Exception('Route not found');
     }

@@ -40,8 +40,8 @@ Future<void> showLogOutDialog(BuildContext context,
                   onPressed: (() async {
                     await AuthService.firebase().logOut();
 
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                        RouteManager.login, (route) => false);
+                    Navigator.of(context)
+                        .pushNamedAndRemoveUntil(login, (route) => false);
                   }),
                   child: const Text('Ok')),
               TextButton(
@@ -53,4 +53,12 @@ Future<void> showLogOutDialog(BuildContext context,
           ),
         );
       }));
+}
+
+Future<void> showShareErrorIfNoteEmpty(BuildContext context) async {
+  await showErrorDialog(
+    context,
+    title: 'Sharing',
+    description: 'You cannot share an empty note',
+  );
 }

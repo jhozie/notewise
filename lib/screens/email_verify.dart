@@ -63,7 +63,7 @@ class _EmailVerifyState extends State<EmailVerify> {
                 final user = AuthService.firebase().currentUser;
                 if (user != null) {
                   if (user.isEmailVerified) {
-                    Navigator.of(context).pushNamed(RouteManager.register);
+                    Navigator.of(context).pushNamed(register);
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   }

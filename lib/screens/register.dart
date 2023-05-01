@@ -15,7 +15,7 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
-  // late final TextEditingController _fullName;
+  late final TextEditingController _fullName;
   late final TextEditingController _email;
   late final TextEditingController _password;
 
@@ -24,14 +24,14 @@ class _RegisterState extends State<Register> {
     super.initState();
     _email = TextEditingController();
     _password = TextEditingController();
-    // _fullName = TextEditingController();
+    _fullName = TextEditingController();
   }
 
   @override
   void dispose() {
     super.dispose();
     _email.dispose();
-    // _fullName.dispose();
+    _fullName.dispose();
     _password.dispose();
   }
 
@@ -51,8 +51,16 @@ class _RegisterState extends State<Register> {
             mainAxisSize: MainAxisSize.max,
             children: [
               Row(
-                children: const [
-                  SizedBox(height: 100, child: Icon(Icons.arrow_back_ios_new)),
+                children: [
+                  SizedBox(
+                    height: 100,
+                    child: IconButton(
+                      onPressed: (() {
+                        Navigator.of(context).pop();
+                      }),
+                      icon: const Icon(Icons.arrow_back_ios_new),
+                    ),
+                  ),
                 ],
               ),
               Text(
@@ -66,6 +74,12 @@ class _RegisterState extends State<Register> {
               const MyText(
                 text: 'Please sign up to continue',
                 fontsize: 20,
+              ),
+              const SizedBox(height: 20),
+              MyTextField(
+                controller: _fullName,
+                label: 'Full Name',
+                hint: 'Your Full Name',
               ),
               const SizedBox(height: 20),
               MyTextField(
@@ -84,12 +98,12 @@ class _RegisterState extends State<Register> {
                   onPressed: (() async {
                     final email = _email.text;
                     final password = _password.text.trim();
-
+                    final fullName = _fullName.text.trim();
                     try {
-                      await AuthService.firebase()
-                          .createUser(email: email, password: password);
+                      await AuthService.firebase().createUser(
+                          email: email, password: password, fullName: fullName);
                       await AuthService.firebase().sendEmailVerification();
-                      Navigator.of(context).pushNamed(RouteManager.homepage);
+                      Navigator.of(context).pushNamed(homepage);
                     } on RegisterInvalidEmailException catch (e) {
                       await showErrorDialog(context,
                           title: 'Invalid Email',
@@ -110,6 +124,7 @@ class _RegisterState extends State<Register> {
                           title: 'An Error Occured',
                           description: 'Something went wrong');
                     }
+                    //TODO FULL NAME EXCEPTIONS
                   }),
                   style: ElevatedButton.styleFrom(
                       minimumSize: const Size(400, 60),
@@ -120,10 +135,10 @@ class _RegisterState extends State<Register> {
                     style: GoogleFonts.nunito(
                         fontSize: 20, fontWeight: FontWeight.bold),
                   )),
-              const SizedBox(height: 70),
+              const SizedBox(height: 40),
               Center(
                 child: Text(
-                  'Or Sign in with:',
+                  'Or Sign up with:',
                   style: GoogleFonts.nunito(
                     fontWeight: FontWeight.w600,
                     fontSize: 17,
@@ -148,6 +163,31 @@ class _RegisterState extends State<Register> {
                     ),
                   ),
                 ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'Don\'t have an account yet?',
+                    style: GoogleFonts.nunito(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 17,
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: (() {
+                      Navigator.of(context).pushNamed(login);
+                    }),
+                    child: Text(
+                      'Login',
+                      style: GoogleFonts.nunito(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 17,
+                      ),
+                    ),
+                  )
+                ],
               )
             ],
           ),

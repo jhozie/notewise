@@ -40,18 +40,18 @@ class _LoginState extends State<Login> {
       height: MediaQuery.of(context).size.height,
       color: Colors.white,
       child: Padding(
-        padding: const EdgeInsets.only(left: 20, right: 20),
+        padding: const EdgeInsets.only(top: 70, left: 20, right: 20),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.end,
             mainAxisSize: MainAxisSize.max,
             children: [
               Row(
-                children: const [
-                  SizedBox(height: 100, child: Icon(Icons.arrow_back_ios_new)),
-                ],
-              ),
+                  // children: const [
+                  //   SizedBox(height: 100, child: Icon(Icons.arrow_back_ios_new)),
+                  // ],
+                  ),
               Text(
                 'Welcome',
                 style: GoogleFonts.nunito(
@@ -77,17 +77,21 @@ class _LoginState extends State<Login> {
                 controller: _password,
                 obscureText: true,
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
-                children: const [
-                  MyText(
-                    text: 'Forgot Password',
-                    fontsize: 17,
-                  )
+                children: [
+                  TextButton(
+                      onPressed: (() {
+                        Navigator.of(context).pushNamed(passwordReset);
+                      }),
+                      child: const MyText(
+                        text: 'Forgot Password?',
+                        fontsize: 17,
+                      ))
                 ],
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               ElevatedButton(
                 onPressed: (() async {
                   final email = _email.text;
@@ -96,8 +100,7 @@ class _LoginState extends State<Login> {
                   try {
                     await AuthService.firebase()
                         .logIn(email: email, password: password);
-                    Navigator.of(context)
-                        .popAndPushNamed(RouteManager.homepage);
+                    Navigator.of(context).popAndPushNamed(homepage);
                   } on UserNotFoundException {
                     await showErrorDialog(context,
                         title: 'User Not Found',
@@ -166,7 +169,7 @@ class _LoginState extends State<Login> {
                   ),
                   TextButton(
                     onPressed: (() {
-                      Navigator.of(context).pushNamed(RouteManager.register);
+                      Navigator.of(context).pushNamed(register);
                     }),
                     child: Text(
                       'Sign up',

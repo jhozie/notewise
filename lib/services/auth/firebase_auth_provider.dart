@@ -7,11 +7,17 @@ import 'package:notewise/utilities/exceptions.dart';
 
 class FirebaseAuthProvider implements AuthProvider {
   @override
-  Future<AuthUser> createUser(
-      {required String email, required String password}) async {
+  Future<AuthUser> createUser({
+    required String email,
+    required String password,
+    required String fullName,
+  }) async {
     try {
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
+
+      await FirebaseAuth.instance.currentUser!.updateDisplayName(fullName);
+
       final user = currentUser;
       if (user != null) {
         return user;
@@ -81,5 +87,44 @@ class FirebaseAuthProvider implements AuthProvider {
   Future<void> initialize() async {
     await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform);
+  }
+
+  @override
+  Future<void> updatePassword(
+      {required String email,
+      required String oldPassword,
+      required String newPassword}) async {
+    final User user = FirebaseAuth.instance.currentUser!;
+
+    try {
+      AuthCredential credential = EmailAuthProvider.credential(
+          email: user.email!, password: oldPassword);
+      await user.reauthenticateWithCredential(credential);
+      await user.updatePassword(newPassword);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'wrong-password') {
+        throw WrongPasswordException();
+      } else if (e.code == 'weak-password') {
+        throw WeakPasswordException();
+      } else if (e.code == 'invalid-email') {
+        throw LoginInvalidEmailException();
+      } else {
+        throw GenericException();
+      }
+    } catch (e) {
+      throw GenericException();
+    }
+  }
+
+  Future<void> resetPassword({required String email}) async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'invalid-email') {
+        throw RegisterInvalidEmailException();
+      } else {
+        throw GenericException();
+      }
+    }
   }
 }

@@ -75,8 +75,7 @@ class _OnboardingState extends State<Onboarding> {
                 InkWell(
                   onTap: (() {
                     _currentPage == (_page.length - 1)
-                        ? Navigator.of(context)
-                            .popAndPushNamed(RouteManager.login)
+                        ? Navigator.of(context).popAndPushNamed(login)
                         : _controller.nextPage(
                             duration: Duration(microseconds: 300),
                             curve: Curves.easeInOut);
@@ -110,8 +109,7 @@ class _OnboardingState extends State<Onboarding> {
                   alignment: Alignment.bottomCenter,
                   child: TextButton(
                       onPressed: (() {
-                        Navigator.of(context)
-                            .popAndPushNamed(RouteManager.login);
+                        Navigator.of(context).popAndPushNamed(login);
                       }),
                       child: Text(
                         'Skip Tour',

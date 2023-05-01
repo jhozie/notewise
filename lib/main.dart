@@ -1,18 +1,27 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:notewise/Route/route.dart';
+import 'package:notewise/screens/allNotes.dart';
+import 'package:notewise/screens/confirm_password.dart';
+import 'package:notewise/screens/new_note.dart';
+import 'package:notewise/screens/password_sent.dart';
+import 'package:notewise/screens/personal_info.dart';
+import 'package:notewise/screens/register.dart';
+import 'package:notewise/screens/reset_password.dart';
+import 'package:notewise/screens/settings.dart';
 import 'package:notewise/services/auth/auth_service.dart';
 import 'package:notewise/screens/email_verify.dart';
 import 'package:notewise/screens/login.dart';
 import 'package:notewise/screens/note.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +31,20 @@ class MyApp extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                   backgroundColor: const Color.fromARGB(255, 37, 105, 207)))),
       debugShowCheckedModeBanner: false,
-      initialRoute: RouteManager.note,
-      onGenerateRoute: RouteManager.generateRoute,
+      // initialRoute: note,
+      // onGenerateRoute: RouteManager.generateRoute,
+      routes: {
+        homepage: (context) => const MyHomePage(),
+        newNote: (context) => const CreateUpdateNote(),
+        login: (context) => const Login(),
+        register: (context) => const Register(),
+        note: (context) => const NoteScreen(),
+        categories: (context) => const Categories(),
+        settings: (context) => const MySettingsPage(),
+        personalInfo: (context) => const PersonalInfoPage(),
+        passwordReset: (context) => const PasswordReset(),
+        passwordSent: (context) => const PasswordSent(),
+      },
     );
   }
 }

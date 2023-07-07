@@ -97,92 +97,92 @@ class _NoteScreenState extends State<NoteScreen> {
                     //   });
                     // }
 
-                    return SingleChildScrollView(
-                      child: Container(
-                        color: Color.fromARGB(255, 250, 250, 250),
-                        width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              const SizedBox(height: 50),
-                              // Circle Avatar Section
-                              Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      'Notes',
-                                      style: GoogleFonts.nunito(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 30,
-                                          color: const Color.fromARGB(
-                                              255, 88, 88, 88)),
-                                    ),
-                                    CircleAvatar(
-                                      radius: 20,
-                                      child: InkWell(
-                                        onTap: (() async {
-                                          await showLogOutDialog(context,
-                                              title: 'Log Out',
-                                              description:
-                                                  'Are you sure you want to log out?');
-                                        }),
-                                        child: const CircleAvatar(
-                                          radius: 17,
-                                          backgroundImage: AssetImage(
-                                              'images/avatar-woman.jpg'),
-                                        ),
-                                      ),
-                                    )
-                                  ]),
-                              const SizedBox(height: 20),
-                              // Search Field
-                              TextField(
-                                onChanged: (value) => searchNotes(value),
-                                decoration: InputDecoration(
-                                  prefixIcon: const Icon(Icons.search),
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      vertical: 3, horizontal: 20),
-                                  hintText: 'hint',
-                                  border: const OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Color.fromARGB(255, 4, 94, 211),
-                                        width: 2),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(30)),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
+                    return Container(
+                      color: Color.fromARGB(255, 250, 250, 250),
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            const SizedBox(height: 50),
+                            // Circle Avatar Section
+                            Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Notes',
+                                    style: GoogleFonts.nunito(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 30,
                                         color: const Color.fromARGB(
-                                                255, 4, 94, 211)
-                                            .withOpacity(0.2),
-                                        width: 2),
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(30)),
+                                            255, 88, 88, 88)),
                                   ),
+                                  CircleAvatar(
+                                    radius: 20,
+                                    child: InkWell(
+                                      onTap: (() async {
+                                        await showLogOutDialog(context,
+                                            title: 'Log Out',
+                                            description:
+                                                'Are you sure you want to log out?');
+                                      }),
+                                      child: const CircleAvatar(
+                                        radius: 17,
+                                        backgroundImage: AssetImage(
+                                            'images/avatar-woman.jpg'),
+                                      ),
+                                    ),
+                                  )
+                                ]),
+                            const SizedBox(height: 20),
+                            // Search Field
+                            TextField(
+                              onChanged: (value) => searchNotes(value),
+                              decoration: InputDecoration(
+                                prefixIcon: const Icon(Icons.search),
+                                contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 3, horizontal: 20),
+                                hintText: 'hint',
+                                border: const OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Color.fromARGB(255, 4, 94, 211),
+                                      width: 2),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(30)),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color:
+                                          const Color.fromARGB(255, 4, 94, 211)
+                                              .withOpacity(0.2),
+                                      width: 2),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(30)),
                                 ),
                               ),
-                              // Section for Pinned Notes
+                            ),
+                            // Section for Pinned Notes
 
-                              pinnedNote.isEmpty
-                                  ? const SizedBox.shrink()
-                                  : SizedBox(
-                                      height: 180,
-                                      child:
-                                          MyNoteContainer(notes: pinnedNote)),
-                              //contains tabview menu
-                              // Container(
-                              //   constraints:
-                              //       const BoxConstraints.expand(height: 60),
-                              //   child:
-                              // ),
-                              //Contains the Tabview Content
-                              Container(
-                                height: pinnedNote.isEmpty ? 450 : 340,
+                            pinnedNote.isEmpty
+                                ? const SizedBox.shrink()
+                                : SizedBox(
+                                    height: 180,
+                                    child: MyNoteContainer(notes: pinnedNote)),
+                            //contains tabview menu
+                            // Container(
+                            //   constraints:
+                            //       const BoxConstraints.expand(height: 60),
+                            //   child:
+                            // ),
+                            //Contains the Tabview Content
+                            Expanded(
+                              child: Container(
+                                height: MediaQuery.of(context).size.height,
                                 child: SingleChildScrollView(
+                                  padding: EdgeInsets.only(left: 10, right: 10),
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -222,8 +222,8 @@ class _NoteScreenState extends State<NoteScreen> {
                                   ),
                                 ),
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
                     );

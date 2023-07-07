@@ -24,7 +24,7 @@ class MyNoteContainer extends StatelessWidget {
     final List<CloudNote> pinnedNotes =
         notes.where((notes) => notes.isPinned).toList();
     return Padding(
-      padding: const EdgeInsets.only(right: 2, top: 20),
+      padding: const EdgeInsets.only(right: 10, top: 20, left: 10),
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: pinnedNotes.length,

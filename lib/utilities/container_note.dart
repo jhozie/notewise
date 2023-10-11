@@ -15,7 +15,6 @@ class MyNoteContainer extends StatelessWidget {
   });
 
   final List<CloudNote> notes;
-
   @override
   Widget build(BuildContext context) {
     notes.sort((a, b) {
@@ -29,7 +28,7 @@ class MyNoteContainer extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         itemCount: pinnedNotes.length,
         itemBuilder: (context, index) {
-          int _randomIndex = Random().nextInt(colours.length);
+          int _randomIndex = Random().nextInt(colourss.length);
           final note = pinnedNotes.elementAt(index);
           return InkWell(
             onTap: <CloudNote>() {
@@ -41,7 +40,7 @@ class MyNoteContainer extends StatelessWidget {
               margin: EdgeInsets.only(right: 10),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: colours[_randomIndex],
+                color: colourss[_randomIndex],
                 // const Color.fromARGB(255, 4, 94, 211).withOpacity(0.2)
               ),
               child: Padding(

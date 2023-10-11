@@ -15,3 +15,7 @@ class AuthEventLoggedOut extends AuthEvent {
 class AuthEventInitialize extends AuthEvent {
   const AuthEventInitialize();
 }
+
+class AuthEventEmailLogin extends AuthEvent {
+  AuthEventEmailLogin();
+}

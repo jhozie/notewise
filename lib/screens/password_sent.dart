@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:notewise/Route/route.dart';
 
 import '../main.dart';
+import '../utilities/my_text.dart';
 
 class PasswordSent extends StatefulWidget {
   const PasswordSent({super.key});

@@ -2,10 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:notewise/Route/route.dart';
 import 'package:notewise/services/auth/auth_service.dart';
+import 'package:notewise/services/auth/bloc/auth_bloc.dart';
+import 'package:notewise/services/auth/bloc/auth_event.dart';
 import 'package:notewise/utilities/exceptions.dart';
 import 'package:notewise/utilities/showdialog.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../main.dart';
+import '../services/auth/bloc/auth_state.dart';
+import '../utilities/myTextfield.dart';
+import '../utilities/my_text.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -96,11 +101,14 @@ class _LoginState extends State<Login> {
                 onPressed: (() async {
                   final email = _email.text;
                   final password = _password.text;
-
                   try {
+                    // context
+                    //     .read<AuthBloc>()
+                    //     .add(AuthEventLogin(email, password));
+
                     await AuthService.firebase()
                         .logIn(email: email, password: password);
-                    Navigator.of(context).popAndPushNamed(homepage);
+                    Navigator.of(context).pushNamed(homepage);
                   } on UserNotFoundException {
                     await showErrorDialog(context,
                         title: 'User Not Found',
@@ -136,9 +144,23 @@ class _LoginState extends State<Login> {
                   ),
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Center(
                 child: InkWell(
+                  onTap: () async {
+                    try {
+                      await AuthService.firebase().googleSignIn();
+                      Navigator.of(context).pushNamed(note);
+                    } on GoogleSignInException {
+                      await showErrorDialog(context,
+                          title: 'Sign In Failed',
+                          description: 'Please again later');
+                    } on GenericException {
+                      await showErrorDialog(context,
+                          title: 'An Error Occured',
+                          description: 'Something went wrong');
+                    }
+                  },
                   child: Container(
                     decoration: BoxDecoration(
                         border: Border.all(

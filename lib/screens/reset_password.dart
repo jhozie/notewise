@@ -6,6 +6,8 @@ import 'package:notewise/utilities/exceptions.dart';
 import 'package:notewise/utilities/showdialog.dart';
 
 import '../main.dart';
+import '../utilities/myTextfield.dart';
+import '../utilities/my_text.dart';
 
 class PasswordReset extends StatefulWidget {
   const PasswordReset({super.key});

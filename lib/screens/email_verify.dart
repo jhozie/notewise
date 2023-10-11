@@ -1,9 +1,10 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:notewise/services/auth/auth_service.dart';
-import 'package:notewise/firebase_options.dart';
 
 import '../Route/route.dart';
 
@@ -15,6 +16,14 @@ class EmailVerify extends StatefulWidget {
 }
 
 class _EmailVerifyState extends State<EmailVerify> {
+  @override
+  void initState() {
+    Timer.periodic(Duration(seconds: 5), ((timer) {
+      FirebaseAuth.instance.currentUser?.reload();
+    }));
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,7 +72,7 @@ class _EmailVerifyState extends State<EmailVerify> {
                 final user = AuthService.firebase().currentUser;
                 if (user != null) {
                   if (user.isEmailVerified) {
-                    Navigator.of(context).pushNamed(register);
+                    Navigator.of(context).pushNamed(note);
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   }

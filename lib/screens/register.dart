@@ -5,6 +5,8 @@ import 'package:notewise/services/auth/auth_service.dart';
 import 'package:notewise/utilities/exceptions.dart';
 import '../main.dart';
 
+import '../utilities/myTextfield.dart';
+import '../utilities/my_text.dart';
 import '../utilities/showdialog.dart';
 
 class Register extends StatefulWidget {

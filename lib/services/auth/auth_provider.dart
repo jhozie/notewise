@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+
 import 'auth_user.dart';
 
 abstract class AuthProvider {
@@ -19,6 +21,8 @@ abstract class AuthProvider {
     required String oldPassword,
     required String newPassword,
   });
+
+  Future<UserCredential> googleSignIn();
 
   Future<void> logOut();
   Future<void> sendEmailVerification();

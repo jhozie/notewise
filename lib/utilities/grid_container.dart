@@ -28,7 +28,7 @@ class MyGridContainer extends StatelessWidget {
         ),
         itemCount: notes.length,
         itemBuilder: (context, index) {
-          int _randomIndex = Random().nextInt(colours.length);
+          int _randomIndex = Random().nextInt(colourss.length);
           final note = notes.elementAt(index);
           return InkWell(
             onTap: <CloudNote>() {
@@ -40,7 +40,7 @@ class MyGridContainer extends StatelessWidget {
               margin: const EdgeInsets.only(right: 10),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: colours[_randomIndex],
+                color: colourss[_randomIndex],
                 // const Color.fromARGB(255, 4, 94, 211).withOpacity(0.2)
               ),
               child: Padding(

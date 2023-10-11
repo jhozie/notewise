@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:notewise/services/auth/auth_provider.dart';
 import 'package:notewise/services/auth/auth_user.dart';
 import 'package:notewise/services/auth/firebase_auth_provider.dart';
@@ -47,5 +48,10 @@ class AuthService implements AuthProvider {
       oldPassword: oldPassword,
       newPassword: newPassword,
     );
+  }
+
+  @override
+  Future<UserCredential> googleSignIn() {
+    return provider.googleSignIn();
   }
 }

@@ -16,3 +16,18 @@ class CouldNotUpdateNoteException implements Exception {}
 // Delete Note
 
 class CouldNotDeleteNoteException implements Exception {}
+
+// Create
+class CouldNotCreateCategoryException implements Exception {}
+
+// Read or Get
+
+class CouldNotGetAllCategoryException implements Exception {}
+
+// Update
+
+class CouldNotUpdateCategoryException implements Exception {}
+
+// Delete Note
+
+class CouldNotDeleteCategoryException implements Exception {}

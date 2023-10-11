@@ -7,8 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../Route/route.dart';
+import '../services/auth/bloc/auth_bloc.dart';
+import '../services/auth/bloc/auth_event.dart';
 import '../utilities/showdialog.dart';
 
 class MySettingsPage extends StatefulWidget {
@@ -67,9 +69,12 @@ class _MySettingsPageState extends State<MySettingsPage> {
                   Center(
                     child: InkWell(
                       onTap: (() async {}),
-                      child: CircleAvatar(
+                      child: const CircleAvatar(
                         radius: 100,
-                        backgroundImage: AssetImage('images/avatar-woman.jpg'),
+                        child: CircleAvatar(
+                          radius: 95,
+                          backgroundImage: AssetImage('images/avatar.png'),
+                        ),
                       ),
                     ),
                   ),
@@ -77,49 +82,52 @@ class _MySettingsPageState extends State<MySettingsPage> {
                     height: 100,
                     child: Center(
                       child: Text(
-                        fullName!,
-                        style: GoogleFonts.nunito(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 27,
+                        fullName,
+                        style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 24,
                             color: const Color.fromARGB(255, 88, 88, 88)),
                       ),
                     ),
                   ),
                   const SizedBox(height: 30),
-                  TextButton(
-                    onPressed: (() async {
-                      final user = FirebaseAuth.instance.currentUser;
-                      final ref = FirebaseStorage.instance
-                          .ref()
-                          .child('profile_pictures')
-                          .child(user!.uid + '.jpg');
-                      final task = ref.putFile(_image!);
-                      final url = await task.snapshot.ref.getDownloadURL();
-                      final userRef = FirebaseFirestore.instance
-                          .collection('users')
-                          .doc(user.uid);
-                      userRef.update({'profilePictureUrl': url});
-                      final userDoc = await userRef.get();
-                      final profilePictureUrl = userDoc['profilePictureUrl'];
-                      _selectImages();
-                    }),
-                    child: Text(
-                      'Full Name',
-                      style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.normal,
-                          fontSize: 15,
-                          color: const Color.fromARGB(255, 88, 88, 88)),
-                    ),
-                  ),
+                  // TextButton(
+                  //   onPressed: (() async {
+                  //     final user = FirebaseAuth.instance.currentUser;
+                  //     final ref = FirebaseStorage.instance
+                  //         .ref()
+                  //         .child('profile_pictures')
+                  //         .child(user!.uid + '.jpg');
+                  //     final task = ref.putFile(_image!);
+                  //     final url = await task.snapshot.ref.getDownloadURL();
+                  //     final userRef = FirebaseFirestore.instance
+                  //         .collection('users')
+                  //         .doc(user.uid);
+                  //     userRef.update({'profilePictureUrl': url});
+                  //     final userDoc = await userRef.get();
+                  //     final profilePictureUrl = userDoc['profilePictureUrl'];
+                  //     _selectImages();
+                  //   }),
+                  //   child: Text(
+                  //     'Full Name',
+                  //     style: GoogleFonts.poppins(
+                  //         fontWeight: FontWeight.normal,
+                  //         fontSize: 15,
+                  //         color: const Color.fromARGB(255, 88, 88, 88)),
+                  //   ),
+                  // ),
                   const Divider(
                     thickness: 1,
                   ),
                   ListTile(
-                    leading: Icon(Icons.person),
+                    leading: Icon(
+                      Icons.person,
+                      color: Color.fromARGB(255, 4, 94, 211).withOpacity(0.6),
+                    ),
                     title: Text(
                       'Personal Information',
-                      style: GoogleFonts.nunito(
-                          fontWeight: FontWeight.bold,
+                      style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.w600,
                           fontSize: 20,
                           color: const Color.fromARGB(255, 88, 88, 88)),
                     ),
@@ -140,11 +148,14 @@ class _MySettingsPageState extends State<MySettingsPage> {
                     thickness: 1,
                   ),
                   ListTile(
-                    leading: Icon(Icons.logout),
+                    leading: Icon(
+                      Icons.logout,
+                      color: Color.fromARGB(255, 4, 94, 211).withOpacity(0.6),
+                    ),
                     title: Text(
                       'Log Out',
-                      style: GoogleFonts.nunito(
-                          fontWeight: FontWeight.bold,
+                      style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.w600,
                           fontSize: 20,
                           color: const Color.fromARGB(255, 88, 88, 88)),
                     ),
@@ -157,11 +168,14 @@ class _MySettingsPageState extends State<MySettingsPage> {
                     ),
                     trailing: IconButton(
                         onPressed: (() async {
+                          // context
+                          //     .read<AuthBloc>()
+                          //     .add(const AuthEventLoggedOut());
                           await showLogOutDialog(context,
                               title: 'Log Out',
                               description: 'Are you sure you want to log out?');
                         }),
-                        icon: Icon(Icons.arrow_forward_ios)),
+                        icon: const Icon(Icons.arrow_forward_ios)),
                   ),
                   const Divider(
                     thickness: 1,
@@ -170,33 +184,33 @@ class _MySettingsPageState extends State<MySettingsPage> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        iconSize: 30,
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-              icon: IconButton(
-                  onPressed: (() {
-                    Navigator.of(context).pushNamed(note);
-                  }),
-                  icon: Icon(Icons.home_filled)),
-              label: 'Home'),
-          BottomNavigationBarItem(
-              icon: IconButton(
-                  onPressed: (() {
-                    Navigator.of(context).pushNamed(categories);
-                  }),
-                  icon: Icon(Icons.notes_outlined)),
-              label: 'Categories'),
-          BottomNavigationBarItem(
-              icon: IconButton(
-                  onPressed: (() {
-                    Navigator.of(context).pushNamed(settings);
-                  }),
-                  icon: Icon(Icons.settings_outlined)),
-              label: 'Settings'),
-        ],
-        currentIndex: _selectedIndex,
-      ),
+      // bottomNavigationBar: BottomNavigationBar(
+      //   iconSize: 30,
+      //   items: <BottomNavigationBarItem>[
+      //     BottomNavigationBarItem(
+      //         icon: IconButton(
+      //             onPressed: (() {
+      //               Navigator.of(context).pushNamed(note);
+      //             }),
+      //             icon: Icon(Icons.home_filled)),
+      //         label: 'Home'),
+      //     BottomNavigationBarItem(
+      //         icon: IconButton(
+      //             onPressed: (() {
+      //               Navigator.of(context).pushNamed(categories);
+      //             }),
+      //             icon: Icon(Icons.notes_outlined)),
+      //         label: 'Categories'),
+      //     BottomNavigationBarItem(
+      //         icon: IconButton(
+      //             onPressed: (() {
+      //               Navigator.of(context).pushNamed(settings);
+      //             }),
+      //             icon: Icon(Icons.settings_outlined)),
+      //         label: 'Settings'),
+      //   ],
+      //   currentIndex: _selectedIndex,
+      // ),
     );
   }
 }

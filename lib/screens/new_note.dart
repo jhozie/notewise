@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:notewise/Route/route.dart';
 import 'package:notewise/services/auth/auth_service.dart';
 import 'package:notewise/services/cloud/cloud_note.dart';
 import 'package:notewise/services/cloud/cloud_storage_constants.dart';
@@ -147,75 +146,93 @@ class _CreateUpdateNoteState extends State<CreateUpdateNote> {
               return Container(
                 color: Colors.white,
                 child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      Row(
-                        children: [
-                          IconButton(
-                              onPressed: (() {
-                                Navigator.of(context).pop();
-                              }),
-                              icon: Icon(
-                                Icons.arrow_back,
-                              )),
-                          const SizedBox(width: 250),
-                          IconButton(
-                              onPressed: _toggleAsPinned,
-                              icon: Icon(
-                                _note!.isPinned
-                                    ? Icons.push_pin
-                                    : Icons.push_pin_outlined,
-                                color: const Color.fromARGB(255, 4, 94, 211)
-                                    .withOpacity(0.6),
-                              )),
-                          IconButton(
-                            onPressed: (() async {
-                              final title = _titleController.text;
-                              final text = _textController.text;
-                              if (title.isEmpty ||
-                                  text.isEmpty ||
-                                  _note == null) {
-                                await showShareErrorIfNoteEmpty(context);
-                              } else {
-                                await Share.share(text);
-                              }
-                            }),
-                            icon: const Icon(Icons.share),
-                            color: const Color.fromARGB(255, 4, 94, 211)
-                                .withOpacity(0.6),
-                          ),
-                        ],
-                      ),
-                      Text(
-                          "${date.day}/${date.month}/${date.year}  ${date.hour}.${date.minute}"),
-                      TextField(
-                        controller: _titleController,
-                        decoration: const InputDecoration(
-                          border: InputBorder.none,
-                          hintText: 'Enter Title',
-                          contentPadding: EdgeInsets.only(right: 15, left: 15),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 10, right: 10),
+                    child: Column(
+                      children: [
+                        const SizedBox(
+                          height: 15,
                         ),
-                        keyboardType: TextInputType.multiline,
-                        style: GoogleFonts.nunito(
-                            fontWeight: FontWeight.bold, fontSize: 25),
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height,
-                        child: TextField(
-                          controller: _textController,
+                        Row(
+                          children: [
+                            IconButton(
+                                onPressed: (() {
+                                  Navigator.of(context).pop();
+                                }),
+                                icon: Icon(
+                                  Icons.arrow_back,
+                                  size: 30,
+                                )),
+                            const SizedBox(width: 240),
+                            IconButton(
+                                onPressed: _toggleAsPinned,
+                                icon: Icon(
+                                  _note!.isPinned
+                                      ? Icons.push_pin
+                                      : Icons.push_pin_outlined,
+                                  color: Color.fromARGB(255, 0, 0, 0)
+                                      .withOpacity(0.6),
+                                )),
+                            IconButton(
+                              onPressed: (() async {
+                                final title = _titleController.text;
+                                final text = _textController.text;
+                                if (title.isEmpty ||
+                                    text.isEmpty ||
+                                    _note == null) {
+                                  await showShareErrorIfNoteEmpty(context);
+                                } else {
+                                  await Share.share(text);
+                                }
+                              }),
+                              icon: const Icon(Icons.share),
+                              color:
+                                  Color.fromARGB(255, 7, 7, 7).withOpacity(0.6),
+                            ),
+                          ],
+                        ),
+                        Text(
+                          "${date.day}/${date.month}/${date.year}  ${date.hour}.${date.minute}",
+                          style: const TextStyle(
+                              color: Color.fromARGB(255, 139, 139, 139)),
+                        ),
+                        TextField(
+                          controller: _titleController,
                           decoration: const InputDecoration(
                             border: InputBorder.none,
-                            hintText: 'Enter text',
-                            contentPadding: EdgeInsets.all(15),
+                            hintText: 'Enter Title',
+                            hintStyle: TextStyle(
+                                color: Color.fromARGB(255, 139, 139, 139)),
+                            contentPadding:
+                                EdgeInsets.only(right: 15, left: 15),
                           ),
-                          maxLines: null,
                           keyboardType: TextInputType.multiline,
+                          style: GoogleFonts.poppins(
+                              color: Color.fromARGB(255, 139, 139, 139),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 25),
                         ),
-                      )
-                    ],
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height,
+                          child: TextField(
+                            controller: _textController,
+                            decoration: const InputDecoration(
+                              border: InputBorder.none,
+                              hintText: 'Tap to enter text',
+                              hintStyle: TextStyle(
+                                  color: Color.fromARGB(255, 139, 139, 139)),
+                              contentPadding: EdgeInsets.all(15),
+                            ),
+                            maxLines: null,
+                            keyboardType: TextInputType.multiline,
+                            style: GoogleFonts.poppins(
+                                color: Color.fromARGB(255, 139, 139, 139),
+                                fontWeight: FontWeight.w500,
+                                fontSize: 15),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               );

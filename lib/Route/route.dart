@@ -55,3 +55,6 @@ const String settings = '/settings';
 const String personalInfo = '/personal-info';
 const String passwordReset = '/password-reset/';
 const String passwordSent = '/password-sent';
+const String addCategoryNote = '/add-category-note';
+const String noteToAdd = '/no-To-Add';
+const String noteCategory = '/note-category';

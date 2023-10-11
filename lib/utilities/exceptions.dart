@@ -19,3 +19,5 @@ class EmailAlreadyInUseException implements Exception {}
 class GenericException implements Exception {}
 
 class UserNotLoggedInException implements Exception {}
+
+class GoogleSignInException implements Exception {}

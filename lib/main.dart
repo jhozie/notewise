@@ -1,19 +1,27 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:notewise/Route/route.dart';
+import 'package:notewise/screens/add.cat.dart';
 import 'package:notewise/screens/allNotes.dart';
-import 'package:notewise/screens/confirm_password.dart';
+import 'package:notewise/screens/categorie_pages.dart';
+import 'package:notewise/screens/add_category_note.dart';
 import 'package:notewise/screens/new_note.dart';
+import 'package:notewise/screens/note_category_page.dart';
+import 'package:notewise/screens/note_to_add.dart';
 import 'package:notewise/screens/password_sent.dart';
 import 'package:notewise/screens/personal_info.dart';
 import 'package:notewise/screens/register.dart';
 import 'package:notewise/screens/reset_password.dart';
 import 'package:notewise/screens/settings.dart';
-import 'package:notewise/services/auth/auth_service.dart';
 import 'package:notewise/screens/email_verify.dart';
 import 'package:notewise/screens/login.dart';
 import 'package:notewise/screens/note.dart';
+import 'package:notewise/services/auth/auth_service.dart';
+import 'package:notewise/services/auth/bloc/auth_bloc.dart';
+import 'package:notewise/services/auth/bloc/auth_event.dart';
+import 'package:notewise/services/auth/bloc/auth_state.dart';
+import 'package:notewise/services/auth/firebase_auth_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,19 +39,25 @@ class MyApp extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                   backgroundColor: const Color.fromARGB(255, 37, 105, 207)))),
       debugShowCheckedModeBanner: false,
+      home: BlocProvider<AuthBloc>(
+        create: (context) => AuthBloc(FirebaseAuthProvider()),
+        child: const MyHomePage(),
+      ),
       // initialRoute: note,
       // onGenerateRoute: RouteManager.generateRoute,
       routes: {
-        homepage: (context) => const MyHomePage(),
         newNote: (context) => const CreateUpdateNote(),
         login: (context) => const Login(),
         register: (context) => const Register(),
         note: (context) => const NoteScreen(),
-        categories: (context) => const Categories(),
+        categories: (context) => const CategoryPage(),
         settings: (context) => const MySettingsPage(),
         personalInfo: (context) => const PersonalInfoPage(),
         passwordReset: (context) => const PasswordReset(),
         passwordSent: (context) => const PasswordSent(),
+        addCategoryNote: ((context) => const AddCategoryNote()),
+        noteToAdd: (context) => const NoteToAdd(),
+        noteCategory: (context) => const NoteCategoryPage()
       },
     );
   }
@@ -54,86 +68,43 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: AuthService.firebase().initialize(),
-      builder: ((context, snapshot) {
-        switch (snapshot.connectionState) {
-          case ConnectionState.done:
-            final user = AuthService.firebase().currentUser;
-            if (user != null) {
-              if (user.isEmailVerified) {
-              } else {
-                return const EmailVerify();
-              }
-            } else {
-              return const Login();
-            }
+    context.read<AuthBloc>().add(const AuthEventInitialize());
 
-            return const NoteScreen();
-          default:
-            return const Center(child: CircularProgressIndicator());
-        }
-      }),
-    );
-  }
-}
+    return BlocBuilder<AuthBloc, AuthState>(builder: ((context, state) {
+      if (state is AuthLoginState) {
+        return const NoteScreen();
+      } else if (state is AuthStateEmailLogin) {
+        return const NoteScreen();
+      } else if (state is AuthStateNeedsVerification) {
+        return const NoteScreen();
+      } else if (state is AuthLogoutState) {
+        return const Login();
+      } else {
+        return const Scaffold(
+          body: Center(child: CircularProgressIndicator()),
+        );
+      }
+    }));
+    // return FutureBuilder(
+    //   future: AuthService.firebase().initialize(),
+    //   builder: ((context, snapshot) {
+    //     switch (snapshot.connectionState) {
+    //       case ConnectionState.done:
+    //         final user = AuthService.firebase().currentUser;
+    //         if (user != null) {
+    //           if (user.isEmailVerified) {
+    //             return const NoteScreen();
+    //           } else {
+    //             return const EmailVerify();
+    //           }
+    //         } else {
+    //           return const Login();
+    //         }
 
-class MyText extends StatelessWidget {
-  const MyText({
-    required this.text,
-    required this.fontsize,
-    Key? key,
-  }) : super(key: key);
-
-  final String text;
-  final double fontsize;
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      text,
-      style: GoogleFonts.nunito(
-          fontSize: fontsize, color: const Color.fromARGB(255, 88, 88, 88)),
-    );
-  }
-}
-
-class MyTextField extends StatelessWidget {
-  const MyTextField({
-    required this.label,
-    required this.hint,
-    required this.controller,
-    this.obscureText = false,
-    this.keyboard,
-    Key? key,
-  }) : super(key: key);
-  final String label;
-  final String hint;
-  final TextEditingController controller;
-  final bool obscureText;
-  final TextInputType? keyboard;
-
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      keyboardType: keyboard,
-      obscureText: obscureText,
-      controller: controller,
-      decoration: InputDecoration(
-        labelText: label,
-        hintText: hint,
-        border: const OutlineInputBorder(
-          borderSide:
-              BorderSide(color: Color.fromARGB(255, 4, 94, 211), width: 2),
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-              color: Color.fromARGB(255, 4, 94, 211).withOpacity(0.2),
-              width: 2),
-          borderRadius: const BorderRadius.all(Radius.circular(10)),
-        ),
-      ),
-    );
+    //       default:
+    //         return const Center(child: CircularProgressIndicator());
+    //     }
+    //   }),
+    // );
   }
 }

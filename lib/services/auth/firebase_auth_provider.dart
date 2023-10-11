@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/services.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:notewise/services/auth/auth_provider.dart';
 import 'package:notewise/services/auth/auth_user.dart';
 import 'package:notewise/firebase_options.dart';
@@ -52,14 +54,28 @@ class FirebaseAuthProvider implements AuthProvider {
   @override
   Future<AuthUser> logIn(
       {required String email, required String password}) async {
-    await FirebaseAuth.instance
-        .signInWithEmailAndPassword(email: email, password: password);
+    try {
+      await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
 
-    final user = currentUser;
-    if (user != null) {
-      return user;
-    } else {
-      throw UserNotLoggedInException();
+      final user = currentUser;
+      if (user != null) {
+        return user;
+      } else {
+        throw UserNotLoggedInException();
+      }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        throw UserNotFoundException();
+      } else if (e.code == 'wrong-password') {
+        throw WrongPasswordException();
+      } else if (e.code == 'invalid-email') {
+        throw LoginInvalidEmailException();
+      } else {
+        throw GenericException();
+      }
+    } catch (e) {
+      throw GenericException();
     }
   }
 
@@ -125,6 +141,35 @@ class FirebaseAuthProvider implements AuthProvider {
       } else {
         throw GenericException();
       }
+    }
+  }
+
+  @override
+  Future<UserCredential> googleSignIn() async {
+    GoogleSignIn googleSignIn = GoogleSignIn();
+
+    try {
+      final GoogleSignInAccount? googleSignInAccount =
+          await googleSignIn.signIn();
+      if (googleSignInAccount != null) {
+        final GoogleSignInAuthentication googleSignInAuthentication =
+            await googleSignInAccount.authentication;
+        final AuthCredential credential = GoogleAuthProvider.credential(
+            accessToken: googleSignInAuthentication.accessToken,
+            idToken: googleSignInAuthentication.idToken);
+
+        return await FirebaseAuth.instance.signInWithCredential(credential);
+      } else {
+        throw GoogleSignInException();
+      }
+    } on PlatformException catch (e) {
+      if (e.code == 'sign_in_failed') {
+        throw GoogleSignInException();
+      }
+
+      throw GenericException();
+    } catch (e) {
+      throw GenericException();
     }
   }
 }

@@ -2,13 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:notewise/Route/route.dart';
 import 'package:notewise/services/auth/auth_service.dart';
-import 'package:notewise/services/auth/bloc/auth_bloc.dart';
-import 'package:notewise/services/auth/bloc/auth_event.dart';
+
 import 'package:notewise/utilities/exceptions.dart';
 import 'package:notewise/utilities/showdialog.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import '../main.dart';
-import '../services/auth/bloc/auth_state.dart';
+
 import '../utilities/myTextfield.dart';
 import '../utilities/my_text.dart';
 
@@ -22,7 +19,7 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   late final TextEditingController _email;
   late final TextEditingController _password;
-
+  var _obscureText = true;
   @override
   void initState() {
     super.initState();
@@ -43,7 +40,7 @@ class _LoginState extends State<Login> {
         body: Container(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
-      color: Colors.white,
+      // color: Colors.white,
       child: Padding(
         padding: const EdgeInsets.only(top: 70, left: 20, right: 20),
         child: SingleChildScrollView(
@@ -52,7 +49,7 @@ class _LoginState extends State<Login> {
             mainAxisAlignment: MainAxisAlignment.end,
             mainAxisSize: MainAxisSize.max,
             children: [
-              Row(
+              const Row(
                   // children: const [
                   //   SizedBox(height: 100, child: Icon(Icons.arrow_back_ios_new)),
                   // ],
@@ -62,7 +59,9 @@ class _LoginState extends State<Login> {
                 style: GoogleFonts.nunito(
                     fontWeight: FontWeight.bold,
                     fontSize: 30,
-                    color: Color.fromARGB(255, 88, 88, 88)),
+                    color: Theme.of(context).brightness == Brightness.light
+                        ? Color.fromARGB(255, 88, 88, 88)
+                        : const Color.fromARGB(255, 218, 216, 216)),
               ),
               const SizedBox(height: 10),
               const MyText(
@@ -80,7 +79,17 @@ class _LoginState extends State<Login> {
                 label: 'Password',
                 hint: 'Your Password',
                 controller: _password,
-                obscureText: true,
+                obscureText: _obscureText,
+                suffixIcon: GestureDetector(
+                  onTap: (() {
+                    setState(() {
+                      _obscureText = !_obscureText;
+                    });
+                  }),
+                  child: _obscureText
+                      ? Icon(Icons.visibility)
+                      : Icon(Icons.visibility_off),
+                ),
               ),
               const SizedBox(height: 10),
               Row(
@@ -119,6 +128,10 @@ class _LoginState extends State<Login> {
                         title: 'Incorrect Credentials',
                         description:
                             'Your credentials is incorrect. Please check and try again');
+                  } on LoginInvalidEmailException {
+                    await showErrorDialog(context,
+                        title: 'An Error Occured',
+                        description: 'Something went wrong');
                   } on GenericException {
                     await showErrorDialog(context,
                         title: 'An Error Occured',

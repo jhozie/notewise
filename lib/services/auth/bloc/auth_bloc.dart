@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:notewise/services/auth/auth_provider.dart';
 import 'package:notewise/services/auth/bloc/auth_state.dart';
-import 'package:notewise/services/auth/firebase_auth_provider.dart';
 
 import 'auth_event.dart';
 

@@ -293,6 +293,8 @@ import 'package:notewise/Route/route.dart';
 import 'package:notewise/screens/note_list.dart';
 import 'package:notewise/services/auth/auth_service.dart';
 import 'package:notewise/services/cloud/firebase_cloud_note.dart';
+import 'package:notewise/utilities/theme_provider.dart';
+import 'package:provider/provider.dart';
 import '../services/cloud/cloud_note.dart';
 import '../utilities/container_note.dart';
 import 'package:contained_tab_bar_view/contained_tab_bar_view.dart';
@@ -342,7 +344,7 @@ class _NoteScreenState extends State<NoteScreen> {
   @override
   void dispose() {
     _searchController.dispose();
-    _debounce?.cancel();
+    _debounce.cancel();
 
     super.dispose();
   }
@@ -361,6 +363,8 @@ class _NoteScreenState extends State<NoteScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -369,7 +373,7 @@ class _NoteScreenState extends State<NoteScreen> {
           width: 80,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(59),
-            color: const Color.fromARGB(255, 4, 94, 211),
+            color: Color.fromARGB(255, 15, 100, 211),
           ),
           child: IconButton(
             onPressed: () {
@@ -397,7 +401,7 @@ class _NoteScreenState extends State<NoteScreen> {
                 _searchedNotes.where((notes) => notes.isPinned).toList();
 
             return Container(
-              color: Color.fromARGB(255, 255, 255, 255),
+              // color: Color.fromARGB(255, 255, 255, 255),
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
               child: Padding(
@@ -408,7 +412,7 @@ class _NoteScreenState extends State<NoteScreen> {
                     const SizedBox(height: 50),
                     // Circle Avatar Section
                     Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(left: 10),
@@ -420,6 +424,15 @@ class _NoteScreenState extends State<NoteScreen> {
                                   color: const Color.fromARGB(255, 88, 88, 88)),
                             ),
                           ),
+                          const SizedBox(
+                            width: 190,
+                          ),
+                          Switch(
+                              activeColor: Color.fromARGB(255, 15, 100, 211),
+                              value: themeProvider.themeType == ThemeType.dark,
+                              onChanged: (value) {
+                                themeProvider.toggleTheme();
+                              }),
                           Padding(
                             padding: const EdgeInsets.only(right: 10),
                             child: CircleAvatar(
@@ -445,7 +458,8 @@ class _NoteScreenState extends State<NoteScreen> {
                         controller: _searchController,
                         onChanged: (value) {
                           if (_debounce.isActive) _debounce.cancel();
-                          _debounce = Timer(Duration(milliseconds: 500), () {
+                          _debounce =
+                              Timer(const Duration(milliseconds: 500), () {
                             setState(() {
                               searchQuery = value;
                               filterNotes();
@@ -486,12 +500,19 @@ class _NoteScreenState extends State<NoteScreen> {
                       child: Container(
                           height: MediaQuery.of(context).size.height,
                           child: ContainedTabBarView(
-                              tabBarProperties: const TabBarProperties(
-                                labelColor: Colors.black,
+                              tabBarProperties: TabBarProperties(
+                                labelColor: Theme.of(context).brightness ==
+                                        Brightness.light
+                                    ? Colors.black
+                                    : Colors.white,
                                 unselectedLabelColor:
                                     Color.fromARGB(255, 139, 139, 139),
                                 indicatorWeight: 4.0,
                                 indicatorSize: TabBarIndicatorSize.label,
+                                indicatorColor: Theme.of(context).brightness ==
+                                        Brightness.light
+                                    ? Colors.blue
+                                    : Color.fromARGB(255, 139, 139, 139),
                               ),
                               tabs: [
                                 Text(
@@ -536,11 +557,7 @@ class _NoteScreenState extends State<NoteScreen> {
                                                       .pushNamed(newNote,
                                                           arguments: note);
                                                 },
-                                                // listCount: _searchedNotes.length,
                                               ),
-                                        // : noteListView(
-                                        //     notes: _searchedNotes,
-                                        //     onTap: ((note) {}))
                                       ],
                                     ),
                                   ),
@@ -554,8 +571,6 @@ class _NoteScreenState extends State<NoteScreen> {
                                           .pushNamed(newNote, arguments: note);
                                     },
                                   ),
-                                  // child: noteListView(
-                                  //     notes: pinnedNote, onTap: ((note) {})),
                                 )
                               ])),
                     ),

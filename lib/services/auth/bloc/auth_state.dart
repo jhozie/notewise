@@ -1,8 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:notewise/services/auth/auth_user.dart';
 
-@immutable
 abstract class AuthState {
   const AuthState();
 }

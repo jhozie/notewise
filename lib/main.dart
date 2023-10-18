@@ -1,27 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:notewise/Route/route.dart';
-import 'package:notewise/screens/add.cat.dart';
-import 'package:notewise/screens/allNotes.dart';
-import 'package:notewise/screens/categorie_pages.dart';
-import 'package:notewise/screens/add_category_note.dart';
 import 'package:notewise/screens/new_note.dart';
-import 'package:notewise/screens/note_category_page.dart';
-import 'package:notewise/screens/note_to_add.dart';
 import 'package:notewise/screens/password_sent.dart';
 import 'package:notewise/screens/personal_info.dart';
 import 'package:notewise/screens/register.dart';
 import 'package:notewise/screens/reset_password.dart';
 import 'package:notewise/screens/settings.dart';
-import 'package:notewise/screens/email_verify.dart';
 import 'package:notewise/screens/login.dart';
 import 'package:notewise/screens/note.dart';
-import 'package:notewise/services/auth/auth_service.dart';
 import 'package:notewise/services/auth/bloc/auth_bloc.dart';
 import 'package:notewise/services/auth/bloc/auth_event.dart';
 import 'package:notewise/services/auth/bloc/auth_state.dart';
 import 'package:notewise/services/auth/firebase_auth_provider.dart';
+import 'package:notewise/utilities/theme_provider.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,33 +26,38 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-          elevatedButtonTheme: ElevatedButtonThemeData(
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromARGB(255, 37, 105, 207)))),
-      debugShowCheckedModeBanner: false,
-      home: BlocProvider<AuthBloc>(
-        create: (context) => AuthBloc(FirebaseAuthProvider()),
-        child: const MyHomePage(),
-      ),
-      // initialRoute: note,
-      // onGenerateRoute: RouteManager.generateRoute,
-      routes: {
-        newNote: (context) => const CreateUpdateNote(),
-        login: (context) => const Login(),
-        register: (context) => const Register(),
-        note: (context) => const NoteScreen(),
-        categories: (context) => const CategoryPage(),
-        settings: (context) => const MySettingsPage(),
-        personalInfo: (context) => const PersonalInfoPage(),
-        passwordReset: (context) => const PasswordReset(),
-        passwordSent: (context) => const PasswordSent(),
-        addCategoryNote: ((context) => const AddCategoryNote()),
-        noteToAdd: (context) => const NoteToAdd(),
-        noteCategory: (context) => const NoteCategoryPage()
-      },
-    );
+    return ChangeNotifierProvider(
+        create: ((context) => ThemeProvider()),
+        child: Consumer<ThemeProvider>(
+          builder: (context, value, child) {
+            return MaterialApp(
+              theme: value.themeType == ThemeType.light
+                  ? ThemeData.light()
+                  : ThemeData.dark(),
+              // theme: ThemeData(
+              //     elevatedButtonTheme: ElevatedButtonThemeData(
+              //         style: ElevatedButton.styleFrom(
+              //             backgroundColor: const Color.fromARGB(255, 37, 105, 207)))),
+              debugShowCheckedModeBanner: false,
+              home: BlocProvider<AuthBloc>(
+                create: (context) => AuthBloc(FirebaseAuthProvider()),
+                child: const MyHomePage(),
+              ),
+              // initialRoute: note,
+              // onGenerateRoute: RouteManager.generateRoute,
+              routes: {
+                newNote: (context) => const CreateUpdateNote(),
+                login: (context) => const Login(),
+                register: (context) => const Register(),
+                note: (context) => const NoteScreen(),
+                settings: (context) => const MySettingsPage(),
+                personalInfo: (context) => const PersonalInfoPage(),
+                passwordReset: (context) => const PasswordReset(),
+                passwordSent: (context) => const PasswordSent(),
+              },
+            );
+          },
+        ));
   }
 }
 

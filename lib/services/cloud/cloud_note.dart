@@ -33,10 +33,8 @@
 // }
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'cloud_storage_constants.dart';
 
-@immutable
 class CloudNote {
   final String documentId;
   final String ownerUserId;

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
@@ -16,7 +14,7 @@ class PersonalInfoPage extends StatefulWidget {
 }
 
 class _PersonalInfoPageState extends State<PersonalInfoPage> {
-  File? _image;
+  // File? _image;
   final _selectedIndex = 0;
 
   Future<void> _selectImages() async {
@@ -25,7 +23,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
 
     if (pickedFile != null) {
       setState(() {
-        _image = File(pickedFile.path);
+        // _image = File(pickedFile.path);
       });
     }
   }
@@ -44,7 +42,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        color: Colors.white,
+        // color: Colors.white,
         child: Padding(
           padding: const EdgeInsets.only(left: 20, right: 20),
           child: SingleChildScrollView(
@@ -69,13 +67,16 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                       onTap: (() async {}),
                       child: CircleAvatar(
                         radius: 70,
-                        backgroundImage: AssetImage('images/avatar-woman.jpg'),
+                        backgroundImage: AssetImage('images/avatar.png'),
                       ),
                     ),
                   ),
                   const SizedBox(height: 30),
-                  const Divider(
+                  Divider(
                     thickness: 1,
+                    color: Theme.of(context).brightness == Brightness.light
+                        ? Color.fromARGB(255, 88, 88, 88)
+                        : const Color.fromARGB(255, 218, 216, 216),
                   ),
                   ListTile(
                     leading: Icon(Icons.person),
@@ -84,21 +85,30 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                       style: GoogleFonts.nunito(
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
-                          color: const Color.fromARGB(255, 88, 88, 88)),
+                          color:
+                              Theme.of(context).brightness == Brightness.light
+                                  ? Color.fromARGB(255, 88, 88, 88)
+                                  : const Color.fromARGB(255, 218, 216, 216)),
                     ),
                     subtitle: Text(
                       'Full Name',
                       style: GoogleFonts.poppins(
                           fontWeight: FontWeight.normal,
                           fontSize: 15,
-                          color: const Color.fromARGB(255, 88, 88, 88)),
+                          color:
+                              Theme.of(context).brightness == Brightness.light
+                                  ? Color.fromARGB(255, 88, 88, 88)
+                                  : const Color.fromARGB(255, 218, 216, 216)),
                     ),
                     trailing: IconButton(
                         onPressed: (() async {}),
                         icon: Icon(Icons.arrow_forward_ios)),
                   ),
-                  const Divider(
+                  Divider(
                     thickness: 1,
+                    color: Theme.of(context).brightness == Brightness.light
+                        ? Color.fromARGB(255, 88, 88, 88)
+                        : const Color.fromARGB(255, 218, 216, 216),
                   ),
                   ListTile(
                     leading: Icon(Icons.logout),
@@ -107,14 +117,20 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                       style: GoogleFonts.nunito(
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
-                          color: const Color.fromARGB(255, 88, 88, 88)),
+                          color:
+                              Theme.of(context).brightness == Brightness.light
+                                  ? Color.fromARGB(255, 88, 88, 88)
+                                  : const Color.fromARGB(255, 218, 216, 216)),
                     ),
                     subtitle: Text(
                       'Email Address',
                       style: GoogleFonts.poppins(
                           fontWeight: FontWeight.normal,
                           fontSize: 15,
-                          color: const Color.fromARGB(255, 88, 88, 88)),
+                          color:
+                              Theme.of(context).brightness == Brightness.light
+                                  ? Color.fromARGB(255, 88, 88, 88)
+                                  : const Color.fromARGB(255, 218, 216, 216)),
                     ),
                     trailing: IconButton(
                         onPressed: (() async {
@@ -124,8 +140,11 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                         }),
                         icon: Icon(Icons.arrow_forward_ios)),
                   ),
-                  const Divider(
+                  Divider(
                     thickness: 1,
+                    color: Theme.of(context).brightness == Brightness.light
+                        ? Color.fromARGB(255, 88, 88, 88)
+                        : const Color.fromARGB(255, 218, 216, 216),
                   ),
                 ]),
           ),

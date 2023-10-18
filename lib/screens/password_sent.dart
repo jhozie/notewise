@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:notewise/Route/route.dart';
 
-import '../main.dart';
 import '../utilities/my_text.dart';
 
 class PasswordSent extends StatefulWidget {
@@ -19,7 +18,7 @@ class _PasswordSentState extends State<PasswordSent> {
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        color: Colors.white,
+        // color: Colors.white,
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: Column(
@@ -44,7 +43,9 @@ class _PasswordSentState extends State<PasswordSent> {
                 style: GoogleFonts.nunito(
                     fontWeight: FontWeight.bold,
                     fontSize: 30,
-                    color: const Color.fromARGB(255, 88, 88, 88)),
+                    color: Theme.of(context).brightness == Brightness.light
+                        ? Color.fromARGB(255, 88, 88, 88)
+                        : const Color.fromARGB(255, 218, 216, 216)),
               ),
               const SizedBox(height: 10),
               const MyText(

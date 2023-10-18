@@ -4,8 +4,6 @@ import 'package:notewise/Route/route.dart';
 import 'package:notewise/services/auth/firebase_auth_provider.dart';
 import 'package:notewise/utilities/exceptions.dart';
 import 'package:notewise/utilities/showdialog.dart';
-
-import '../main.dart';
 import '../utilities/myTextfield.dart';
 import '../utilities/my_text.dart';
 
@@ -37,7 +35,7 @@ class _PasswordResetState extends State<PasswordReset> {
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        color: Colors.white,
+        // color: Colors.white,
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: SingleChildScrollView(
@@ -63,7 +61,9 @@ class _PasswordResetState extends State<PasswordReset> {
                   style: GoogleFonts.nunito(
                       fontWeight: FontWeight.bold,
                       fontSize: 30,
-                      color: const Color.fromARGB(255, 88, 88, 88)),
+                      color: Theme.of(context).brightness == Brightness.light
+                          ? Color.fromARGB(255, 88, 88, 88)
+                          : const Color.fromARGB(255, 218, 216, 216)),
                 ),
                 const SizedBox(height: 10),
                 const MyText(

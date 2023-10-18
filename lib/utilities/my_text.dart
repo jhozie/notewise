@@ -13,10 +13,11 @@ class MyText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      text,
-      style: GoogleFonts.nunito(
-          fontSize: fontsize, color: const Color.fromARGB(255, 88, 88, 88)),
-    );
+    return Text(text,
+        style: GoogleFonts.nunito(
+            fontSize: fontsize,
+            color: Theme.of(context).brightness == Brightness.light
+                ? Color.fromARGB(255, 88, 88, 88)
+                : const Color.fromARGB(255, 218, 216, 216)));
   }
 }

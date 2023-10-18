@@ -3,8 +3,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:notewise/Route/route.dart';
 import 'package:notewise/services/auth/auth_service.dart';
 import 'package:notewise/utilities/exceptions.dart';
-import '../main.dart';
-
 import '../utilities/myTextfield.dart';
 import '../utilities/my_text.dart';
 import '../utilities/showdialog.dart';
@@ -20,7 +18,8 @@ class _RegisterState extends State<Register> {
   late final TextEditingController _fullName;
   late final TextEditingController _email;
   late final TextEditingController _password;
-
+  bool _showTextIcon = false;
+  var _obscureText = true;
   @override
   void initState() {
     super.initState();
@@ -43,7 +42,7 @@ class _RegisterState extends State<Register> {
         body: Container(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
-      color: Colors.white,
+      // color: Colors.white,
       child: Padding(
         padding: const EdgeInsets.only(left: 20, right: 20),
         child: SingleChildScrollView(
@@ -70,7 +69,9 @@ class _RegisterState extends State<Register> {
                 style: GoogleFonts.nunito(
                     fontWeight: FontWeight.bold,
                     fontSize: 30,
-                    color: const Color.fromARGB(255, 88, 88, 88)),
+                    color: Theme.of(context).brightness == Brightness.light
+                        ? Color.fromARGB(255, 88, 88, 88)
+                        : const Color.fromARGB(255, 218, 216, 216)),
               ),
               const SizedBox(height: 10),
               const MyText(
@@ -94,6 +95,18 @@ class _RegisterState extends State<Register> {
                 controller: _password,
                 label: 'Password',
                 hint: 'Your Password',
+                suffixIcon: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _obscureText = !_obscureText;
+                    });
+                  },
+                  child: Icon(
+                    _obscureText ? Icons.visibility : Icons.visibility_off,
+                    color: Colors.grey,
+                  ),
+                ),
+                obscureText: _obscureText,
               ),
               const SizedBox(height: 20),
               ElevatedButton(
@@ -106,7 +119,7 @@ class _RegisterState extends State<Register> {
                           email: email, password: password, fullName: fullName);
                       await AuthService.firebase().sendEmailVerification();
                       Navigator.of(context).pushNamed(homepage);
-                    } on RegisterInvalidEmailException catch (e) {
+                    } on RegisterInvalidEmailException {
                       await showErrorDialog(context,
                           title: 'Invalid Email',
                           description:

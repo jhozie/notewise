@@ -1,11 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:notewise/services/auth/auth_service.dart';
 import 'package:notewise/utilities/exceptions.dart';
 import 'package:notewise/utilities/showdialog.dart';
 
-import '../main.dart';
 import '../utilities/myTextfield.dart';
 import '../utilities/my_text.dart';
 
@@ -41,7 +39,7 @@ class _ConfirmPasswordState extends State<ConfirmPassword> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Colors.white,
+        // color: Colors.white,
         child: Padding(
           padding: const EdgeInsets.all(30),
           child: Column(

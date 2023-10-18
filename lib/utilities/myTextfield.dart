@@ -7,6 +7,7 @@ class MyTextField extends StatelessWidget {
     required this.controller,
     this.obscureText = false,
     this.keyboard,
+    this.suffixIcon,
     Key? key,
   }) : super(key: key);
   final String label;
@@ -14,7 +15,7 @@ class MyTextField extends StatelessWidget {
   final TextEditingController controller;
   final bool obscureText;
   final TextInputType? keyboard;
-
+  final Widget? suffixIcon;
   @override
   Widget build(BuildContext context) {
     return TextField(
@@ -22,6 +23,7 @@ class MyTextField extends StatelessWidget {
       obscureText: obscureText,
       controller: controller,
       decoration: InputDecoration(
+        suffixIcon: suffixIcon,
         labelText: label,
         hintText: hint,
         border: const OutlineInputBorder(

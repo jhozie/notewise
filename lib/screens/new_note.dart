@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:notewise/services/auth/auth_service.dart';
 import 'package:notewise/services/cloud/cloud_note.dart';
-import 'package:notewise/services/cloud/cloud_storage_constants.dart';
 import 'package:notewise/services/cloud/firebase_cloud_note.dart';
 import 'package:notewise/utilities/get_argument.dart';
 import 'package:notewise/utilities/showdialog.dart';
@@ -144,7 +143,7 @@ class _CreateUpdateNoteState extends State<CreateUpdateNote> {
               _setUpTextControllerListener();
               final date = _note!.lastUpdated;
               return Container(
-                color: Colors.white,
+                // color: Colors.white,
                 child: SingleChildScrollView(
                   child: Padding(
                     padding: const EdgeInsets.only(left: 10, right: 10),
@@ -167,12 +166,11 @@ class _CreateUpdateNoteState extends State<CreateUpdateNote> {
                             IconButton(
                                 onPressed: _toggleAsPinned,
                                 icon: Icon(
-                                  _note!.isPinned
-                                      ? Icons.push_pin
-                                      : Icons.push_pin_outlined,
-                                  color: Color.fromARGB(255, 0, 0, 0)
-                                      .withOpacity(0.6),
-                                )),
+                                    _note!.isPinned
+                                        ? Icons.push_pin
+                                        : Icons.push_pin_outlined,
+                                    color:
+                                        const Color.fromARGB(255, 4, 94, 211))),
                             IconButton(
                               onPressed: (() async {
                                 final title = _titleController.text;
@@ -186,8 +184,7 @@ class _CreateUpdateNoteState extends State<CreateUpdateNote> {
                                 }
                               }),
                               icon: const Icon(Icons.share),
-                              color:
-                                  Color.fromARGB(255, 7, 7, 7).withOpacity(0.6),
+                              color: const Color.fromARGB(255, 4, 94, 211),
                             ),
                           ],
                         ),
